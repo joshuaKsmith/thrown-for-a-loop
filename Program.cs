@@ -21,7 +21,7 @@ List<Product> products = new List<Product>()
     {
         Name = "Frisbee",
         Price = 10,
-        Sold = false
+        Sold = false,
         StockDate = new DateTime(2024, 9, 17),
         ManufactureYear = 2023
     },
@@ -78,6 +78,12 @@ while (response > products.Count || response < 1)
     response = int.Parse(Console.ReadLine().Trim());
 }
 Product chosenProduct = products[response - 1];
-Console.WriteLine($"You chose: {chosenProduct.Name}, which costs {chosenProduct.Price} dollars and is {(chosenProduct.Sold ? "" : "not ")}sold.");
 
+DateTime now = DateTime.Now;
+
+TimeSpan timeInStock = now - chosenProduct.StockDate;
+Console.WriteLine(@$"You chose: 
+{chosenProduct.Name}, which costs {chosenProduct.Price} dollars.
+It is {now.Year - chosenProduct.ManufactureYear} years old. 
+It {(chosenProduct.Sold ? "is not available." : $"has been in stock for {timeInStock.Days} days.")}");
 
