@@ -66,19 +66,17 @@ List<Product> products = new List<Product>()
     }
 };
 
-Console.WriteLine(
-    @"Welcome to Thrown for a Loop
-    Your one-stop shop for used sporting equipment"
-);
+Console.WriteLine(@"Welcome to Thrown for a Loop
+    Your one-stop shop for used sporting equipment");
 
 // User Menu
 string choice = null;
 while (choice != "0")
 {
-    Console.WriteLine(
-        @"Choose an option:
+    Console.WriteLine(@"Choose an option:
         0. Exit
-        1. View Product Details"
+        1. View All Products
+        2. View Product Details"
     );
     choice = Console.ReadLine();
     if (choice == "0")
@@ -87,29 +85,17 @@ while (choice != "0")
     }
     else if (choice == "1")
     {
+        ListProducts();
+    }
+    else if (choice == "2")
+    {
         ViewProductDetails();
     }
 }
 
 void ViewProductDetails()
 {
-    // Total Value
-    decimal totalValue = 0.00M;
-    foreach (Product product in products)
-    {
-        if (!product.Sold)
-        {
-            totalValue += product.Price;
-        }
-    }
-    Console.WriteLine($"Total inventory value: {totalValue}");
-
-    // Product List
-    Console.WriteLine("Products:");
-    for (int i=0; i < products.Count; i++)
-    {
-        Console.WriteLine($"{i+1}. {products[i].Name}");
-    }
+    ListProducts();
 
     // User Product Selection
     Product chosenProduct = null;
@@ -133,11 +119,31 @@ void ViewProductDetails()
     TimeSpan timeInStock = now - chosenProduct.StockDate;
 
     // Product Details
-    Console.WriteLine(
-        @$"You chose: 
+    Console.WriteLine(@$"You chose: 
         {chosenProduct.Name}, which costs {chosenProduct.Price} dollars.
         It is {now.Year - chosenProduct.ManufactureYear} years old. 
         It {(chosenProduct.Sold ? "is not available." : $"has been in stock for {timeInStock.Days} days.")}
         It is rated {chosenProduct.Condition}/5.0 on our condition scale."
     );
+}
+
+void ListProducts()
+{
+    //Total Value
+    decimal totalValue = 0.0M;
+    foreach (Product product in products)
+    {
+        if (!product.Sold)
+        {
+            totalValue += product.Price;
+        }
+    }
+    Console.WriteLine($"Total inventory value: ${totalValue}");
+
+    //Product List
+    Console.WriteLine("Products:");
+    for (int i = 0; i < products.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {products[i].Name}");
+    }
 }
