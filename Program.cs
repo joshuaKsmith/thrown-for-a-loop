@@ -76,7 +76,8 @@ while (choice != "0")
     Console.WriteLine(@"Choose an option:
         0. Exit
         1. View All Products
-        2. View Product Details"
+        2. View Product Details
+        3. View Latest Products"
     );
     choice = Console.ReadLine();
     if (choice == "0")
@@ -90,6 +91,10 @@ while (choice != "0")
     else if (choice == "2")
     {
         ViewProductDetails();
+    }
+    else if (choice == "3")
+    {
+        ViewLatestProducts();
     }
 }
 
@@ -145,5 +150,22 @@ void ListProducts()
     for (int i = 0; i < products.Count; i++)
     {
         Console.WriteLine($"{i + 1}. {products[i].Name}");
+    }
+}
+
+void ViewLatestProducts()
+{
+    DateTime threeMonthsAgo = DateTime.Now - TimeSpan.FromDays(90);
+    List<Product> latestProducts = new List<Product>();
+    foreach (Product product in products)
+    {
+        if (product.StockDate > threeMonthsAgo && !product.Sold)
+        {
+            latestProducts.Add(product);
+        }
+    }
+    for (int i = 0; i < latestProducts.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {latestProducts[i].Name}");
     }
 }
